@@ -1,0 +1,44 @@
+template: ntmc-1.7.10 # Changing this will nuke the template project and setup a new one
+
+name: LibPiston
+modid: libpiston
+description: This is a library for Piston TM mods
+
+
+# This version will be in mcmod.info and depends on the template, injected into java code
+version: 1.0.0
+
+# This is auto detected from src directory
+# as the first directory that doesn't contain a single directory
+# If it should be different, uncomment this
+# ---
+# group: pistonmc.mymodid
+
+# This is name.replace(' ', '-') by default
+# If it should be different, uncomment this
+# ---
+# archives-base-name: ExampleMod
+
+
+# A mapping of properties to override in generated gradle.properties
+# ---
+# gradle-overrides: {}
+
+# Paths to copy to the target directory
+# Each path will be copied to target/{path}. If you want to customize the path in target, use [src, dst]
+# This is useful if you need to override some files in the template, for example dependencies.gradle
+# Directories will be scanned recursively.
+#
+# use "null" as the source to delete a file or directory in the target
+# deletion will happen before copying
+# ---
+copy-paths:
+- ["null", src]
+- [src, src/main/java]
+# - [assets, src/main/resources/assets]
+# - [meta, src/main/resources/META-INF]
+# - dependencies.gradle # same as [dependencies.gradle, dependencies.gradle]
+
+# Suffixes to exclude from copying
+copy-exclude:
+- _GENERATED.java
