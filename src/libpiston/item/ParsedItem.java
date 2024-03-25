@@ -107,7 +107,7 @@ public class ParsedItem {
             // modid:name:meta+{...}
             tagStr = s.substring(metaEnd + 1);
         } else {
-            // modid:name:meta+{...x...
+            // modid:name:meta[+{...]x...
             boolean hasCount = true;
             for (int i = countStart + 1; i < s.length(); i++) {
                 char c = s.charAt(i);
@@ -117,9 +117,15 @@ public class ParsedItem {
                 }
             }
             if (hasCount) {
-                // modid:name:meta+{...}x999
-                tagStr = s.substring(metaEnd + 1, countStart);
-                countStr = s.substring(countStart + 1);
+                if (tagStart == s.length()) {
+                    // modid:name:metax999
+                    tagStr = null;
+                    countStr = s.substring(metaEnd + 1);
+                } else {
+                    // modid:name:meta+{...}x999
+                    tagStr = s.substring(metaEnd + 1, countStart);
+                    countStr = s.substring(countStart + 1);
+                }
             } else {
                 // modid:name:meta+{..x...}
                 tagStr = s.substring(metaEnd + 1);
@@ -127,14 +133,16 @@ public class ParsedItem {
         }
 
         NBTTagCompound tag = null;
-        try {
-            NBTBase tagBase = JsonToNBT.func_150315_a(tagStr);
-            if (!(tagBase instanceof NBTTagCompound)) {
-                throw new ParseException("Tag must be an object", null);
+        if (tagStr != null) {
+            try {
+                NBTBase tagBase = JsonToNBT.func_150315_a(tagStr);
+                if (!(tagBase instanceof NBTTagCompound)) {
+                    throw new ParseException("Tag must be an object", null);
+                }
+                tag = (NBTTagCompound) tagBase;
+            } catch (NBTException e) {
+                throw new ParseException("Failed to parse NBT from: " + tagStr, e);
             }
-            tag = (NBTTagCompound) tagBase;
-        } catch (NBTException e) {
-            throw new ParseException("Failed to parse NBT from: " + tagStr, e);
         }
 
         if (countStr == null) {
