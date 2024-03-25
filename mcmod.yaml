@@ -5,7 +5,7 @@ modid: libpiston
 description: This is a library for Piston TM mods
 
 # This version will be in mcmod.info and depends on the template, injected into java code
-version: 1.2.0
+version: 1.2.1
 
 coremod: libpiston.coremod.LibPistonCore
 

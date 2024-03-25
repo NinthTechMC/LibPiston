@@ -1,6 +1,7 @@
 package libpiston.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 import libpiston.ParseException;
@@ -116,8 +117,7 @@ public class IntervalUnion {
     /** The intervals that make up the union. null to match anything*/
     private TreeSet<Interval> intervals;
 
-
-    public IntervalUnion(List<Interval> intervals) {
+    private IntervalUnion(List<Interval> intervals) {
         if (intervals != null) {
             this.intervals = new TreeSet<>();
             for (Interval interval : intervals) {
@@ -264,6 +264,16 @@ public class IntervalUnion {
             intervals.add(Interval.readFrom(deserializer));
         }
         return new IntervalUnion(intervals);
+    }
+
+    /** Create a union that contains any value */
+    public static IntervalUnion any() {
+        return new IntervalUnion(null);
+    }
+
+    /** Create a union that contains values from start to end, inclusive */
+    public static IntervalUnion range(int start, int end) {
+        return new IntervalUnion(Arrays.asList(new Interval(start, end)));
     }
 }
 
